@@ -1,0 +1,18 @@
+# Minimal Python sandbox image for Akumen Code.
+# Runs as non-root user "sandbox" in /workspace.
+# No pip installs — candidates use stdlib only.
+
+FROM python:3.12-slim
+
+# Create non-root user
+RUN groupadd -r sandbox && useradd -r -g sandbox -m -s /bin/sh sandbox
+
+# Create workspace directory owned by sandbox user
+RUN mkdir -p /workspace && chown sandbox:sandbox /workspace
+
+# Switch to non-root user
+USER sandbox
+WORKDIR /workspace
+
+# Keep container alive — the actual commands are run via docker exec
+CMD ["sleep", "infinity"]
