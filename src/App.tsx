@@ -266,7 +266,7 @@ export default function App() {
   }, [sessionId]);
 
   // Session creation is now triggered by "Set Sail", not on mount
-  const initSession = useCallback(async () => {
+  const initSession = useCallback(async (durationMinutes: number) => {
     try {
       setSocketState('connecting');
       const response = await fetch(`${BACKEND_URL}/sessions`, {
@@ -274,7 +274,7 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           language: 'python',
-          duration_minutes: 45,
+          duration_minutes: durationMinutes,
         }),
       });
 
@@ -308,9 +308,9 @@ export default function App() {
   }, [appendOutputEntry]);
 
   // "Set Sail" handler — creates session and unlocks audio
-  const handleSetSail = useCallback(async () => {
+  const handleSetSail = useCallback(async (durationMinutes: number) => {
     setIsSetSailLoading(true);
-    await initSession();
+    await initSession(durationMinutes);
     setShowSetSail(false);
     setIsSetSailLoading(false);
   }, [initSession]);

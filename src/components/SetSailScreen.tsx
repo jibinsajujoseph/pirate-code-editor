@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { audioEngine } from '../audio-engine';
 
@@ -12,15 +13,16 @@ import { audioEngine } from '../audio-engine';
  */
 
 interface SetSailScreenProps {
-  onSetSail: () => void;
+  onSetSail: (durationMinutes: number) => void;
   isLoading: boolean;
 }
 
 export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenProps) {
+  const [duration, setDuration] = useState(45);
   const handleClick = () => {
     if (isLoading) return;
     audioEngine.init();
-    onSetSail();
+    onSetSail(duration);
   };
 
   return (
@@ -105,6 +107,25 @@ export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenPro
         >
           Pirate Command Center
         </motion.p>
+
+        <motion.div
+          className="set-sail-input-group"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+        >
+          <label htmlFor="duration-input" className="set-sail-label">Voyage Duration (minutes)</label>
+          <input
+            id="duration-input"
+            type="number"
+            min="1"
+            max="1440"
+            value={duration}
+            onChange={(e) => setDuration(Math.max(1, Number(e.target.value)))}
+            className="set-sail-input"
+            disabled={isLoading}
+          />
+        </motion.div>
 
         <motion.button
           className="set-sail-btn"

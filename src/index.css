@@ -671,6 +671,40 @@ ul {
   margin-top: -8px;
 }
 
+.set-sail-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.set-sail-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.set-sail-input {
+  width: 100px;
+  padding: 8px 12px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-lime);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-lime-glow-strong);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.set-sail-input:focus {
+  border-color: var(--accent-lime);
+  box-shadow: 0 0 12px var(--accent-lime-glow);
+}
+
 .set-sail-btn {
   margin-top: 16px;
   padding: 14px 40px;
