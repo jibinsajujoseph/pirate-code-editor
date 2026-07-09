@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import CodeEditor from './components/CodeEditor';
 import FileTree from './components/FileTree';
 import OutputPanel from './components/OutputPanel';
@@ -667,15 +667,80 @@ export default function App() {
 
         {/* Session ended overlay */}
         {isSessionEnded && (
-          <div className="session-ended-overlay">
-            <div className="session-ended-card">
-              <div className="session-ended-icon">🏴‍☠️</div>
-              <h2 className="session-ended-title">Voyage Complete</h2>
-              <p className="session-ended-message">
-                {sessionEndMessage ?? 'The session has ended. Your work has been recorded.'}
-              </p>
-            </div>
-          </div>
+          <motion.div
+            className="session-ended-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            {/* Background video */}
+            <video
+              className="session-ended-bg"
+              src="/assets/bg.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              aria-hidden="true"
+            />
+
+            {/* Dark vignette overlay */}
+            <div className="session-ended-vignette" aria-hidden="true" />
+
+            <motion.div
+              className="session-ended-content"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              {/* Logo */}
+              <motion.img
+                src="/assets/logo.png"
+                alt="Akumen Code"
+                className="session-ended-logo"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+              />
+
+              {/* Decorative compass rose */}
+              <motion.div
+                className="session-ended-compass"
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 0.15, rotate: 0 }}
+                transition={{ duration: 1.2, delay: 0.5 }}
+                aria-hidden="true"
+              >
+                ⎈
+              </motion.div>
+
+              <motion.div
+                className="session-ended-card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <div className="session-ended-icon">🏴‍☠️</div>
+                <h2 className="session-ended-title">Voyage Complete</h2>
+                <div className="session-ended-divider" />
+                <p className="session-ended-message">
+                  {sessionEndMessage ?? 'The session has ended. Your work has been recorded.'}
+                </p>
+                <p className="session-ended-sub">
+                  ⚓ Your treasures have been safely stowed ⚓
+                </p>
+              </motion.div>
+
+              <motion.p
+                className="session-ended-footer"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                transition={{ duration: 0.5, delay: 1.2 }}
+              >
+                Powered by Akumen
+              </motion.p>
+            </motion.div>
+          </motion.div>
         )}
       </div>
     </>
