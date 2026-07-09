@@ -69,7 +69,9 @@
   padding: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   font-family: var(--font-ui);
@@ -317,8 +319,15 @@ ul {
 }
 
 @keyframes timer-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* ── File Tree (Ship's Manifest) ──────────────────── */
@@ -608,8 +617,8 @@ ul {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.5) 100%);
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, 0.1) 100%);
   pointer-events: none;
   z-index: 1;
 }
