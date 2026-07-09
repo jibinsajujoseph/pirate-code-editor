@@ -18,8 +18,9 @@ type SoundType = 'cannon' | 'success' | 'error' | 'warning' | 'click';
 class AudioEngine {
   private ctx: AudioContext | null = null;
   private masterGain: GainNode | null = null;
-  private ambienceGain: GainNode | null = null;
-  private ambienceSource: AudioBufferSourceNode | null = null;
+  private bgmAudio: HTMLAudioElement | null = null;
+  private bgmSource: MediaElementAudioSourceNode | null = null;
+  private bgmGain: GainNode | null = null;
   private _muted = false;
   private _initialized = false;
 
@@ -41,7 +42,7 @@ class AudioEngine {
       this.masterGain.gain.value = 0.6;
       this.masterGain.connect(this.ctx.destination);
       this._initialized = true;
-      this.startAmbience();
+      this.startBgm();
     } catch (e) {
       console.warn('AudioManager: Web Audio API not available', e);
     }
@@ -60,40 +61,32 @@ class AudioEngine {
     return this._muted;
   }
 
-  /** Start the background ocean ambience — very quiet filtered noise. */
-  private startAmbience(): void {
+  /**
+   * Start background music from /assets/bgm.mp3.
+   * Loops indefinitely. Routed through the Web Audio API graph
+   * so it respects masterGain / mute controls.
+   */
+  private startBgm(): void {
     if (!this.ctx || !this.masterGain) return;
 
-    const bufferSize = this.ctx.sampleRate * 8; // 8 seconds
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
+    const audio = new Audio('/assets/bgm.mp3');
+    audio.loop = true;
+    audio.preload = 'auto';
 
-    // Generate noise with slow wave-like amplitude modulation
-    for (let i = 0; i < bufferSize; i++) {
-      const t = i / this.ctx.sampleRate;
-      // Modulate amplitude with a slow sine to simulate waves
-      const wave = 0.3 + 0.7 * Math.sin(2 * Math.PI * 0.08 * t) * 0.5 + 0.5;
-      data[i] = (Math.random() * 2 - 1) * 0.015 * wave;
-    }
+    // Route the <audio> element through the Web Audio graph
+    const source = this.ctx.createMediaElementSource(audio);
+    this.bgmGain = this.ctx.createGain();
+    this.bgmGain.gain.value = 0.4; // background music volume
 
-    const source = this.ctx.createBufferSource();
-    source.buffer = buffer;
-    source.loop = true;
+    source.connect(this.bgmGain);
+    this.bgmGain.connect(this.masterGain);
 
-    // Bandpass filter to make it sound more like ocean
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 400;
-    filter.Q.value = 0.5;
+    audio.play().catch((err) => {
+      console.warn('AudioEngine: BGM autoplay blocked', err);
+    });
 
-    this.ambienceGain = this.ctx.createGain();
-    this.ambienceGain.gain.value = 0.3;
-
-    source.connect(filter);
-    filter.connect(this.ambienceGain);
-    this.ambienceGain.connect(this.masterGain);
-    source.start();
-    this.ambienceSource = source;
+    this.bgmAudio = audio;
+    this.bgmSource = source;
   }
 
   /** Play a specific sound effect. */
@@ -238,8 +231,10 @@ class AudioEngine {
 
   /** Clean up audio resources. */
   dispose(): void {
-    if (this.ambienceSource) {
-      try { this.ambienceSource.stop(); } catch { /* already stopped */ }
+    if (this.bgmAudio) {
+      this.bgmAudio.pause();
+      this.bgmAudio.src = '';
+      this.bgmAudio = null;
     }
     if (this.ctx) {
       this.ctx.close();

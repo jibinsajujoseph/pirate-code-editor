@@ -626,44 +626,31 @@ ul {
 /* Quote card — top-left corner */
 .set-sail-quote {
   position: absolute;
-  top: 28px;
-  left: 28px;
+  top: 20px;
+  left: 20px;
   z-index: 10;
-  max-width: 200px;
-  padding: 16px 18px 14px;
-  background: linear-gradient(145deg, rgba(62, 45, 20, 0.85) 0%, rgba(40, 28, 12, 0.9) 100%);
-  border: 1px solid rgba(180, 140, 60, 0.3);
-  border-radius: 4px;
-  color: #d4c8a8;
-  font-size: 13px;
-  line-height: 1.5;
+  width: 320px;
+  aspect-ratio: 3 / 2;
+  padding: 55px 55px 45px;
+  background: url('/assets/parchment.png') center / 100% 100% no-repeat;
+  border: none;
+  border-radius: 0;
+  color: #f0e4c8;
+  font-size: 16px;
+  line-height: 1.45;
   font-style: italic;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .set-sail-quote::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(180, 140, 60, 0.6), rgba(180, 140, 60, 0.1));
+  display: none;
 }
 
-.set-sail-quote-mark {
-  display: block;
-  font-size: 32px;
-  font-style: normal;
-  color: rgba(180, 140, 60, 0.7);
-  line-height: 0.8;
-  margin-bottom: 6px;
-  font-family: Georgia, serif;
-}
 
-.set-sail-quote p {
-  margin: 0;
-}
 
 /* Main content column */
 .set-sail-content {

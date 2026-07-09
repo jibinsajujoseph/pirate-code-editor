@@ -41,10 +41,7 @@ export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenPro
         initial={{ opacity: 0, x: -30 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-      >
-        <span className="set-sail-quote-mark">"</span>
-        <p>Every great captain starts with one line of code.</p>
-      </motion.div>
+      />
 
       <motion.div
         className="set-sail-content"
