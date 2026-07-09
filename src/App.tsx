@@ -623,6 +623,15 @@ export default function App() {
             onDeleteFile={handleDeleteFile}
             disabled={isWorkspaceReadOnly}
           />
+          <div className="sidebar-profile">
+            <div className="profile-avatar-wrapper">
+              <img src="/assets/pirate-avatar.png" alt="Captain" className="profile-avatar" />
+            </div>
+            <div className="profile-info">
+              <div className="profile-title">CAPTAIN</div>
+              <div className="profile-name">Akumenite</div>
+            </div>
+          </div>
         </aside>
 
         <main className="app-main">
@@ -638,6 +647,23 @@ export default function App() {
             <OutputPanel entries={outputEntries} onClear={handleClearOutput} />
           </section>
         </main>
+
+        <footer className="app-status-bar">
+          <div className="status-left">
+            <span className="status-item status-item--success"><span className="status-indicator"></span> Ready to sail</span>
+            <span className="status-item"><span className="status-icon">🔴</span> 0 Errors</span>
+            <span className="status-item"><span className="status-icon">⚠️</span> 0 Warnings</span>
+            <span className="status-item"><span className="status-icon">ℹ️</span> 0 Infos</span>
+          </div>
+          <div className="status-right">
+            <span className="status-item">Ln 14, Col 1</span>
+            <span className="status-item">Spaces: 2</span>
+            <span className="status-item">UTF-8</span>
+            <span className="status-item">LF</span>
+            <span className="status-item">JavaScript</span>
+            <img src="/assets/anchor.png" alt="Anchor" className="status-anchor" />
+          </div>
+        </footer>
 
         {/* Session ended overlay */}
         {isSessionEnded && (

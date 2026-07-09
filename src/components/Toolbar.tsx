@@ -42,27 +42,13 @@ export default function Toolbar({
       <div className="toolbar-left">
         <div className="toolbar-logo">
           <img
-            src="/akumen-logo.jpg"
+            src="/akumen-logo.png"
             alt="Akumen Code"
             className="toolbar-logo-img"
           />
-          <span className="toolbar-logo-text">
-            AKUMEN <span className="toolbar-logo-text-accent">CODE</span>
-          </span>
         </div>
 
         <div className="toolbar-divider" />
-
-        <div className="toolbar-run-wrapper">
-          <button
-            className="toolbar-run-btn"
-            onClick={onRun}
-            disabled={isRunDisabled}
-          >
-            {isRunning ? '💨 Firing…' : '🔥 Fire Cannons'}
-          </button>
-          <CannonSmoke active={showSmoke} onComplete={onSmokeComplete} />
-        </div>
 
         {isSessionEnded && (
           <span className="toolbar-session-status toolbar-session-status--ended">
@@ -71,7 +57,22 @@ export default function Toolbar({
         )}
       </div>
 
+      <div className="toolbar-center">
+        <img src="/assets/ide-bg.png" alt="Toolbar Center" className="toolbar-center-img" />
+      </div>
+
       <div className="toolbar-right">
+        <div className="toolbar-run-wrapper">
+          <button
+            className="toolbar-run-btn"
+            onClick={onRun}
+            disabled={isRunDisabled}
+          >
+            {isRunning ? '💨 FIRING…' : '🔥 FIRE CANNONS'}
+            <img src="/assets/ship-wheel.png" className="btn-icon" alt="wheel" />
+          </button>
+          <CannonSmoke active={showSmoke} onComplete={onSmokeComplete} />
+        </div>
         <button
           className="toolbar-mute-btn"
           onClick={onToggleMute}
@@ -79,12 +80,14 @@ export default function Toolbar({
         >
           {isMuted ? '🔇' : '🔊'}
         </button>
+        <button className="toolbar-icon-btn">🏆</button>
+        <button className="toolbar-icon-btn">⚙️</button>
 
-        <div className="toolbar-timer">
-          <span className="toolbar-timer-label">
-            {isSessionEnded ? '🏴‍☠️ Voyage Complete:' : '⏳ Voyage Time:'}
-          </span>
-          <span
+        <div className="toolbar-timer-card">
+          <div className="toolbar-timer-label">
+            {isSessionEnded ? 'VOYAGE COMPLETE' : '⏳ VOYAGE TIME'}
+          </div>
+          <div
             className={[
               'toolbar-timer-value',
               isTimerWarning ? 'toolbar-timer-value--warning' : '',
@@ -92,8 +95,9 @@ export default function Toolbar({
             ].filter(Boolean).join(' ')}
           >
             {timeRemaining}
-          </span>
+          </div>
         </div>
+        <img src="/assets/lantern.png" alt="Lantern" className="toolbar-lantern" />
       </div>
     </div>
   );
