@@ -83,7 +83,7 @@ export default function App() {
 
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [expiresAtMs, setExpiresAtMs] = useState<number | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<string>('45:00');
+  const [timeRemaining, setTimeRemaining] = useState<string>('30:00');
   const [socketState, setSocketState] = useState<SocketState>('connecting');
   const [sessionStatus, setSessionStatus] = useState<SessionStatus>('active');
   const [sessionEndMessage, setSessionEndMessage] = useState<string | null>(null);

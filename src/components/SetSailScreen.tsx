@@ -18,7 +18,7 @@ interface SetSailScreenProps {
 }
 
 export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenProps) {
-  const [duration, setDuration] = useState(45);
+  const [duration, setDuration] = useState(30);
   const handleClick = () => {
     if (isLoading) return;
     audioEngine.init();
@@ -32,33 +32,19 @@ export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenPro
       exit={{ opacity: 0, scale: 1.05 }}
       transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
-      {/* Subtle background particles for the splash */}
-      <div className="set-sail-particles" aria-hidden="true">
-        {Array.from({ length: 30 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="set-sail-particle-dot"
-            initial={{
-              x: Math.random() * window.innerWidth - window.innerWidth / 2,
-              y: Math.random() * window.innerHeight - window.innerHeight / 2,
-              opacity: 0,
-            }}
-            animate={{
-              opacity: [0, Math.random() * 0.3 + 0.05, 0],
-              y: (Math.random() - 0.5) * 100,
-            }}
-            transition={{
-              duration: 4 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-            }}
-            style={{
-              width: Math.random() * 3 + 1,
-              height: Math.random() * 3 + 1,
-            }}
-          />
-        ))}
-      </div>
+      {/* Dark overlay vignette for text readability */}
+      <div className="set-sail-overlay" aria-hidden="true" />
+
+      {/* Decorative quote card — top left */}
+      <motion.div
+        className="set-sail-quote"
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 1.2 }}
+      >
+        <span className="set-sail-quote-mark">"</span>
+        <p>Every great captain starts with one line of code.</p>
+      </motion.div>
 
       <motion.div
         className="set-sail-content"
@@ -81,7 +67,7 @@ export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenPro
             transition={{ duration: 1.5, delay: 0.8 }}
           />
           <motion.img
-            src="/akumen-logo.jpg"
+            src="/assets/logo.png"
             alt="Akumen Code"
             className="set-sail-logo-img"
             initial={{ opacity: 0, rotate: -5 }}
@@ -105,44 +91,63 @@ export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenPro
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.1 }}
         >
-          Pirate Command Center
+          <span className="set-sail-subtitle-dash">⚓</span>{' '}
+          Embark on Your Coding Voyage{' '}
+          <span className="set-sail-subtitle-dash">⚓</span>
         </motion.p>
 
+        {/* Duration panel */}
         <motion.div
-          className="set-sail-input-group"
-          initial={{ opacity: 0, y: 10 }}
+          className="set-sail-panel"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          <label htmlFor="duration-input" className="set-sail-label">Voyage Duration (minutes)</label>
-          <input
-            id="duration-input"
-            type="number"
-            min="1"
-            max="1440"
-            value={duration}
-            onChange={(e) => setDuration(Math.max(1, Number(e.target.value)))}
-            className="set-sail-input"
-            disabled={isLoading}
-          />
-        </motion.div>
+          <div className="set-sail-panel-header">
+            <span className="set-sail-panel-header-icon">⚓</span>
+            <span>Voyage Duration</span>
+          </div>
 
-        <motion.button
-          className="set-sail-btn"
-          onClick={handleClick}
-          disabled={isLoading}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.4 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          {isLoading ? (
-            <span className="set-sail-btn-loading">Preparing Vessel…</span>
-          ) : (
-            <>⚓ Set Sail</>
-          )}
-        </motion.button>
+          <div className="set-sail-slider-value">{duration}</div>
+
+          <div className="set-sail-slider-container">
+            <span className="set-sail-slider-bound">1</span>
+            <input
+              id="duration-slider"
+              type="range"
+              min="1"
+              max="60"
+              step="1"
+              value={duration}
+              onChange={(e) => setDuration(Number(e.target.value))}
+              className="set-sail-slider"
+              disabled={isLoading}
+            />
+            <span className="set-sail-slider-bound">60</span>
+          </div>
+          <div className="set-sail-slider-unit">Minutes</div>
+
+          <motion.button
+            className="set-sail-btn"
+            onClick={handleClick}
+            disabled={isLoading}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            {isLoading ? (
+              <span className="set-sail-btn-loading">Preparing Vessel…</span>
+            ) : (
+              <>
+                <img
+                  src="/assets/anchor.png"
+                  alt=""
+                  className="set-sail-btn-anchor"
+                />
+                <span className="set-sail-btn-text">Set Sail</span>
+              </>
+            )}
+          </motion.button>
+        </motion.div>
       </motion.div>
 
       <motion.p
