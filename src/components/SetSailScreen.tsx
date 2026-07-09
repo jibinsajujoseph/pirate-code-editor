@@ -32,6 +32,17 @@ export default function SetSailScreen({ onSetSail, isLoading }: SetSailScreenPro
       exit={{ opacity: 0, scale: 1.05 }}
       transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
+      {/* Background video — loops silently behind everything */}
+      <video
+        className="set-sail-bg-video"
+        src="/assets/bg.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden="true"
+      />
+
       {/* Dark overlay vignette for text readability */}
       <div className="set-sail-overlay" aria-hidden="true" />
 

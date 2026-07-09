@@ -670,8 +670,18 @@ ul {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url('/assets/bg.png') center center / cover no-repeat;
+  background: #0a0e17;
   overflow: hidden;
+}
+
+/* Full-screen looping background video */
+.set-sail-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 /* Dark vignette overlay for readability */
